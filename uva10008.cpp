@@ -1,0 +1,57 @@
+#include <iostream>
+#include <string.h>
+#include <algorithm>
+using namespace std;
+struct character
+{
+    char word;
+    int counter;
+};
+bool cmp(character a,character b)
+{
+    if(a.counter > b.counter){return true;}
+    else if(a.counter < b.counter){return false;}
+    else if(a.word < b.word){return true;}    //若次數相同，以字母順序sort
+    return false;
+}
+int main()
+{
+    int line;
+    cin>>line;
+    character word[26];
+    for (int i=0;i<26;i++)    //initialize
+    {
+        word[i].word=(char)(65+i);
+        word[i].counter=0;
+    }
+    char str[1000];
+    int line_counter=0;
+    while(line_counter<=line)
+    {
+        cin.getline(str,1000,'\n');
+        int len=strlen(str);
+        for (int i=0;i<len;i++)
+        {
+            int alpha;
+            if(isalpha(str[i]))    //是否為字母
+            {
+                if(isupper(str[i])){
+                    alpha=(int)str[i]-65;    //大寫
+                }
+                else{
+                    alpha=(int)str[i]-97;    //小寫
+                }
+                word[alpha].counter++;
+            }
+        }
+        line_counter++;
+    }
+    sort(word,word+26,cmp);
+    for (int i=0;i<26;i++)
+    {
+        if(word[i].counter==0){break;}
+        else{cout<<word[i].word<<" "<<word[i].counter<<endl;}
+    }
+    return 0;
+}
+
